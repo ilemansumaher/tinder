@@ -7,7 +7,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   List<String> images = [
     "assets/images/Picture.png",
     "assets/images/Card3.png",
@@ -59,19 +60,16 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     Offset endOffset;
 
     if (direction == "left") {
-      endOffset = Offset(-1.5, 1.0); 
+      endOffset = Offset(-1.5, 1.0);
     } else {
-      endOffset = Offset(1.5, 1.0); 
+      endOffset = Offset(1.5, 1.0);
     }
 
     setState(() {
       _slideAnimation = Tween<Offset>(
         begin: Offset.zero,
         end: endOffset,
-      ).animate(CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeInOut,
-      ));
+      ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
     });
 
     _controller.forward();
@@ -86,47 +84,64 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          SlideTransition(
-            position: _slideAnimation,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(11.0),
-                image: DecorationImage(
-                  image: AssetImage(images[currentImageIndex]),
-                  fit: BoxFit.cover,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(images[(currentImageIndex + 1) % images.length]),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Stack(
+          children: [
+            SlideTransition(
+              position: _slideAnimation,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(11.0),
+                  image: DecorationImage(
+                    image: AssetImage(images[currentImageIndex]),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 30.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  IconButton(onPressed: () {}, icon: Image.asset(imagesBtn[0])),
-                  IconButton(
-                    onPressed: () {
-                      animateCard("left");
-                    },
-                    icon: Image.asset(imagesBtn[1]),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      animateCard("right");
-                    },
-                    icon: Image.asset(imagesBtn[2]),
-                  ),
-                  IconButton(onPressed: () {}, icon: Image.asset(imagesBtn[3])),
-                  IconButton(onPressed: () {}, icon: Image.asset(imagesBtn[4])),
-                ],
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 30.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    IconButton(
+                      onPressed: () {},
+                      icon: Image.asset(imagesBtn[0]),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        animateCard("left");
+                      },
+                      icon: Image.asset(imagesBtn[1]),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        animateCard("right");
+                      },
+                      icon: Image.asset(imagesBtn[2]),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: Image.asset(imagesBtn[3]),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: Image.asset(imagesBtn[4]),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
